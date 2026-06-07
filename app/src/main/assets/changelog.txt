@@ -1,3 +1,9 @@
+v1.7.17
+• Fix: Hiring an Apprentice, Journeyman, or Master worker and tapping "Add Sessions" now correctly opens the skills page for that worker; previously it always opened slot 1 (Long Laborer) and silently discarded the queued session
+• Fix: "First Mastery" achievement now stays earned after prestiging a skill; any skill that has been prestiged must have previously reached level 99
+• Fix: Cancelling the last item in the session queue now correctly refunds coins and materials regardless of session timing
+• Fix: Magic jewelry (sapphire rings, amulets) and ranged equipment now correctly boost hit chance and spell damage in queued and worker combat sessions; previously only melee bonuses were applied regardless of combat style
+
 v1.7.16
 • New: Slayer Master screen now shows an "Add Dungeon to Queue" button on your active task; tap it to instantly queue the correct dungeon using your last-used weapon, spell, arrows, and potion; button is disabled when the queue is already full
 • Fix: Your selected spell is now remembered across app restarts; it is restored automatically when you return to the Combat screen

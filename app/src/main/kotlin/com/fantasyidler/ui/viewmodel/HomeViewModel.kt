@@ -952,8 +952,7 @@ class HomeViewModel @Inject constructor(
 
     fun removeFromQueue(index: Int) {
         viewModelScope.launch {
-            val action = playerRepo.getQueue().getOrNull(index) ?: return@launch
-            playerRepo.removeFromQueue(index)
+            val action = playerRepo.removeFromQueue(index) ?: return@launch
             if (action.coinRefund > 0) playerRepo.addCoins(action.coinRefund)
             playerSessionMaterials(action.skillName, action.activityKey, action.qty, gameData)
                 ?.let { playerRepo.addItems(it) }

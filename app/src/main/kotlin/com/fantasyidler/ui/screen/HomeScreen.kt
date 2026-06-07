@@ -103,7 +103,7 @@ fun HomeScreen(
     onNavigateToSettings: () -> Unit = {},
     onNavigateToShop: () -> Unit = {},
     onNavigateToInn: () -> Unit = {},
-    onNavigateToWorkerSkills: () -> Unit = {},
+    onNavigateToWorkerSkills: (Int) -> Unit = {},
     onNavigateToGuildHall: () -> Unit = {},
     onNavigateToChurch: () -> Unit = {},
     onNavigateToSlayer: () -> Unit = {},
@@ -746,7 +746,7 @@ fun HomeScreen(
                     onCollect                = viewModel::collectWorkerSession,
                     onDismiss                = { viewModel.dismissWorker(1) },
                     onDebugFinish            = { viewModel.debugFinishWorkerSession(1) },
-                    onNavigateToWorkerSkills = onNavigateToWorkerSkills,
+                    onNavigateToWorkerSkills = { onNavigateToWorkerSkills(1) },
                 )
             }
             val hiredWorker2   = state.hiredWorker2
@@ -768,7 +768,7 @@ fun HomeScreen(
                     onCollect                = viewModel::collectWorkerSession,
                     onDismiss                = { viewModel.dismissWorker(2) },
                     onDebugFinish            = { viewModel.debugFinishWorkerSession(2) },
-                    onNavigateToWorkerSkills = onNavigateToWorkerSkills,
+                    onNavigateToWorkerSkills = { onNavigateToWorkerSkills(2) },
                 )
             }
         }
@@ -1012,7 +1012,7 @@ private fun WorkerSessionCard(
     onCollect: () -> Unit,
     onDismiss: () -> Unit,
     onDebugFinish: () -> Unit,
-    onNavigateToWorkerSkills: () -> Unit,
+    onNavigateToWorkerSkills: (Int) -> Unit,
 ) {
     var now by remember { mutableLongStateOf(System.currentTimeMillis()) }
     var showDismissConfirm by remember { mutableStateOf(false) }
@@ -1134,7 +1134,7 @@ private fun WorkerSessionCard(
                     }
                 }
                 if (!isDone && session == null) {
-                    Button(onClick = onNavigateToWorkerSkills) {
+                    Button(onClick = { onNavigateToWorkerSkills(slot) }) {
                         Text(stringResource(R.string.worker_add_sessions))
                     }
                 }
