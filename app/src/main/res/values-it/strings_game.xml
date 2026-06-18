@@ -105,4 +105,5 @@
     <string name="equip_slot_pickaxe">Piccone</string>
     <string name="equip_slot_axe">Ascia</string>
     <string name="equip_slot_fishing_rod">Canna da pesca</string>
+    <string name="equip_slot_hoe">Zappa</string>
 </resources>

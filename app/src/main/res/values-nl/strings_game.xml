@@ -105,4 +105,5 @@
     <string name="equip_slot_pickaxe">Houweel</string>
     <string name="equip_slot_axe">Bijl</string>
     <string name="equip_slot_fishing_rod">Hengel</string>
+    <string name="equip_slot_hoe">Schoffel</string>
 </resources>
