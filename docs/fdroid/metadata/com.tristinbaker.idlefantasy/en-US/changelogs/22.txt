@@ -1,0 +1,8 @@
+• New: Level 99 skill capes awarded automatically with a notification when you reach max level
+• New: Dungeon run count displayed on the combat screen for each dungeon
+• New: Queue estimated end time shown at the bottom of the active queue card
+• New: Crafting bottom sheet shows how many of the output item you already own
+• Fix: Splash screen no longer flashes bright white when app is set to dark mode
+• Fix: Crafting list scroll position is now preserved when switching tabs or navigating away
+• Fix: Items reserved for queued tasks can no longer be sold in the shop
+• Improved item sell prices across all skills, scaling by material tier and equipment slot

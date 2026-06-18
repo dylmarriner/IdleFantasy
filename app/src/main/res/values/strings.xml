@@ -1352,6 +1352,8 @@
     <string name="worker_no_mats">No mats</string>
     <string name="bonus_section_skills">Skill Bonuses</string>
     <string name="bonus_combat_stat_boost">Boosts combat stats</string>
+    <string name="bonus_combined_xp">Combined XP</string>
+    <string name="bonus_yield">yield</string>
     <string name="snackbar_added_to_queue">Added to queue: %1$s.</string>
     <string name="snackbar_queue_full">Queue is full (3/3).</string>
     <string name="combat_start_failed">Could not start: %1$s</string>

@@ -1233,6 +1233,8 @@
     <string name="bonus_section_boosts">Aktif bonuslar</string>
     <string name="bonus_section_skills">Skill Bonuses</string>
     <string name="bonus_combat_stat_boost">Boosts combat stats</string>
+    <string name="bonus_combined_xp">Birleşik XP</string>
+    <string name="bonus_yield">verim</string>
     <string name="snackbar_added_to_queue">Sıraya eklendi: %1$s.</string>
     <string name="snackbar_queue_full">Sıra dolu (3/3).</string>
     <string name="home_not_enough_coins_repeat">%1$s tekrarlamak için yeterli altın yok.</string>

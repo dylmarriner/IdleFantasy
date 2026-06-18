@@ -1226,6 +1226,8 @@
     <string name="bonus_section_boosts">Bonus actifs</string>
     <string name="bonus_section_skills">Skill Bonuses</string>
     <string name="bonus_combat_stat_boost">Boosts combat stats</string>
+    <string name="bonus_combined_xp">XP combiné</string>
+    <string name="bonus_yield">rendement</string>
     <string name="snackbar_added_to_queue">Ajouté à la file: %1$s.</string>
     <string name="snackbar_queue_full">La file est pleine (3/3).</string>
     <string name="home_not_enough_coins_repeat">Pas assez de pièces pour répéter %1$s.</string>

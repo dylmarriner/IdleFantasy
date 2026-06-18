@@ -1258,6 +1258,8 @@
     <string name="bonus_section_boosts">Активные бонусы</string>
     <string name="bonus_section_skills">Skill Bonuses</string>
     <string name="bonus_combat_stat_boost">Boosts combat stats</string>
+    <string name="bonus_combined_xp">Суммарный XP</string>
+    <string name="bonus_yield">выход</string>
     <string name="snackbar_added_to_queue">Добавлено в очередь: %1$s.</string>
     <string name="snackbar_queue_full">Очередь заполнена (3/3).</string>
     <string name="home_not_enough_coins_repeat">Недостаточно монет для повтора %1$s.</string>

@@ -1,0 +1,7 @@
+• Fix: Tapping the crop-ready notification now opens the app
+• Fix: Abandon button no longer shown after a session completes
+• Fix: Hoe correctly categorised as a tool (not armor) in the shop
+• New: Shop buy tab shows how many of each item you already own
+• New: Language selector now works on Android 11 and 12
+• New: Monochrome adaptive icon for themed launchers on Android 13+
+• Improved German translation

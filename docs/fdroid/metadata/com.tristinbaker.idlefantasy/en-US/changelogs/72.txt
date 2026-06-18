@@ -1,0 +1,13 @@
+• New: 6 high-level Slayer tasks added (levels 85-99): Void Stalker, Frost Wyvern, Abyssal Guardian, Shadow Thief, Spectral Knight, Elder Lich; fills the Slayer gap between level 80 and 99
+• New: Thieves Guild added to the Guild Hall (Gathering category): 10 progression quests chaining through all 8 NPC tiers from peasant to high priest, 15 rotating daily requests, and a Thieves Guild Cape capstone reward; Agility Guild moved to the Support Skills category
+• New: Agility skill moved to the Support Skills group in the Profile skills tab
+• New: Profile screen player info header now has a divider line separating it from the tab content area
+• New: Profile layout setting in Settings > Appearance: choose between the sidebar rail or the classic horizontal tab bar
+• New: Bestiary added to Profile screen: tracks lifetime kills per enemy and boss; tap any entry to see stats, combat style, HP, XP, drop table, and dungeon locations; unencountered entries show ??? until you fight them; sort alphabetically or by location
+• New: Daily and Weekly quests merged into a single Timed tab with sub-tabs; each sub-tab shows a blurb explaining its reward structure
+• New: Weekly challenge amounts increased by roughly 50%
+• Fix: pets earned before v1.8.6 that were incorrectly stored as inventory items now correctly appear as collected in the Pets section
+• Removed: Game Corner (Slots, High-Low, Lottery, Card Flip, Blackjack, Roulette, Scratch Card, Video Poker) and its exclusive Ring of Fortune and Amulet of Fortune drops
+• New: 10 skill pets added, one for each of agility, thieving, firemaking, herblore, runecrafting, crafting, fletching, smithing, mercantile, and construction (1/1000 drop per session)
+• New: Weekly challenges: 5 quests rotate every Monday at 6am, with scaled coin rewards and a 1/26 chance to receive divine gear when all five are claimed
+• New: 10 divine gear pieces added (sword, greatblade, helm, platebody, platelegs, shield, boots, pickaxe, axe, fishing rod), obtainable only from the weekly bonus

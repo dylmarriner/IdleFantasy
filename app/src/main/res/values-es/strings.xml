@@ -1228,6 +1228,8 @@
     <string name="bonus_section_boosts">Bonificaciones activas</string>
     <string name="bonus_section_skills">Skill Bonuses</string>
     <string name="bonus_combat_stat_boost">Boosts combat stats</string>
+    <string name="bonus_combined_xp">XP combinado</string>
+    <string name="bonus_yield">rendimiento</string>
     <string name="snackbar_added_to_queue">Añadido a la cola: %1$s.</string>
     <string name="snackbar_queue_full">La cola está llena (3/3).</string>
     <string name="home_not_enough_coins_repeat">No hay suficientes monedas para repetir %1$s.</string>

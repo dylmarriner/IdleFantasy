@@ -1,0 +1,4 @@
+• New: Light theme and system theme option — choose in Settings → Appearance
+• Fix: Hoes (bronze through runite) are now craftable in the Smithing tab
+• Fix: Seeds are no longer sold by Sell Junk
+• Fix: Prayer and Runecrafting now correctly reserve queued materials — you can no longer queue more than you have

@@ -1,0 +1,588 @@
+Categories:
+  - Games
+License: GPL-3.0-only
+SourceCode: https://github.com/tristinbaker/IdleFantasy
+IssueTracker: https://github.com/tristinbaker/IdleFantasy/issues
+Liberapay: tristinbaker_
+
+AutoName: Idle Fantasy
+
+RepoType: git
+Repo: https://github.com/tristinbaker/IdleFantasy
+Binaries: 
+  https://github.com/tristinbaker/IdleFantasy/releases/download/v%v/app-release.apk
+
+Builds:
+  - versionName: '1.0'
+    versionCode: 1
+    commit: d4d51113aa59a575d2a2e0776f0e91a19962263e
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.0.1
+    versionCode: 2
+    commit: b60fc9029f8ab84b65be1fb9e5d493e49c5db623
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.0.2
+    versionCode: 3
+    commit: f2da6b0fa752ea9c22ed5770adc98890eadfac11
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.0.3
+    versionCode: 4
+    commit: a747f95e21b8f0e7c0697787a9c5e23f2aea55f8
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.0.4
+    versionCode: 5
+    commit: e13ca6b2c518c903c98d766905c0be4e2d357a80
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.0.5
+    versionCode: 6
+    commit: 4d74420fba4dfaa8febb820912185c9e2c5579eb
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.1.0
+    versionCode: 7
+    commit: 2b4582a2dbad332879c4e328b7feb91a45927340
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.1.1
+    versionCode: 8
+    commit: c9ff7cd1639d7cb25e5065c0b50aa31fb21cd43f
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.1.2
+    versionCode: 9
+    commit: 28bf93d1d646dc71d48491be22f37002039decc9
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: 1.1.3
+    versionCode: 10
+    commit: da57ba5e47afc0b1f2af914f9dddc50ef29565ef
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.1.4'
+    versionCode: 11
+    commit: 4194cf668133a5052089ff4a7538eb82a6a2a5c5
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.1.5'
+    versionCode: 12
+    commit: 3920647b10130a2b241baa657fcdfdc7b80602f5
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.1.6'
+    versionCode: 13
+    commit: c24f30da6bb2b49a9a7c6a2899792d6e889a3764
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.1.7'
+    versionCode: 14
+    commit: ea6f193ff410d40ef10a1f4edd9ebaea881ff2ae
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.1.8'
+    versionCode: 15
+    commit: 92054f298f31e562944022b68079a16e343be239
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.1.9'
+    versionCode: 16
+    commit: 310a49144febc004ddd287d2518c75c5f76b11cf
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.0'
+    versionCode: 17
+    commit: 65fe246e16c43956f51bb264643fb83a3b02d82d
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.1'
+    versionCode: 18
+    commit: ae9a9d51617ee71fcec37d29f61e5ad7d34a02d7
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.2'
+    versionCode: 19
+    commit: 94de4d21b6a01bbf65ee86c6bc101830bad761e1
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.3'
+    versionCode: 20
+    commit: 9b9d40c9a246d33ce548e89c49422f154d566604
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.4'
+    versionCode: 21
+    commit: e9e81fa77c9bf1136847594bf08a745e4c7165e0
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.5'
+    versionCode: 22
+    commit: 316153f3a45bcd6aff79d0069650193176ec8493
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.6'
+    versionCode: 23
+    commit: ab2ce11847a524bcb5b756df3c9b2c2541a1980b
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.7'
+    versionCode: 24
+    commit: 2af4305408de2c7eb3e29f0ce63f05428ccf5cb5
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.8'
+    versionCode: 25
+    commit: de20970ec0cc00c21dc63cd6e6983721aff30b82
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.2.9'
+    versionCode: 26
+    commit: 390c14c701c20af719c15e2260c1642618d3070a
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.3.0'
+    versionCode: 27
+    commit: 3ce93a7699859a8f9b251adf821a70116acba756
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.3.1'
+    versionCode: 28
+    commit: ea4224dd202ae6649a97510dff6815a57b49c859
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.3.2'
+    versionCode: 29
+    commit: 1c77f6e4a7370c479c6eda88a0b60e9d7316fe12
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.4.0'
+    versionCode: 30
+    commit: 8d914659b8d2728d242951e16990efb04a085269
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.4.1'
+    versionCode: 31
+    commit: 51e7f2cc39f574303ba8df270adc67195c5f51f9
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.4.2'
+    versionCode: 32
+    commit: e458bfce8c736a682072ba8f99706d64e1e8be99
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.4.3'
+    versionCode: 33
+    commit: 85e13edbda5b9697024022b5a98dd10958cc0cff
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.5.0'
+    versionCode: 34
+    commit: 720bf40853c06bf9923981e687138943c0f151ec
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.5.1'
+    versionCode: 35
+    commit: 0e6ebd51e6d469c7e1d3bc960a6aeff04e8143e1
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.6.0'
+    versionCode: 36
+    commit: 22f92ffc817e370eeecc74ed4a92203a11868245
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.6.1'
+    versionCode: 37
+    commit: 9f5c04da20f14a237318712e698c36b987aa3f17
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.6.2'
+    versionCode: 38
+    commit: ac4315c270fe74646bb58bad214410ece0e0b00f
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.6.3'
+    versionCode: 39
+    commit: 41bb13d3cb7ae65ecd2f2dd59cbef00f20889552
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.0'
+    versionCode: 40
+    commit: ddcfcc8d9aa1d533a541f0d1912e4177708c164b
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.1'
+    versionCode: 41
+    commit: 0d2d0b6d92c4c9030cbda38221bd7e8b136558a5
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.2'
+    versionCode: 42
+    commit: fe5670e9b705303c5ef67b22470e6c903ae5b6ba
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.3'
+    versionCode: 43
+    commit: 6838b6f9bdafd064f83e08bacb5956992f5ea2a6
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.4'
+    versionCode: 44
+    commit: b43793e94b7088104b51a02ec2cf8e07df6cd310
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.5'
+    versionCode: 45
+    commit: d82d5a4a12b5a192918040d9747ce79baa779d9c
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.6'
+    versionCode: 46
+    commit: 5fce9693e37f6097ba8ca62c56fd2e4d59bf9d4f
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.7'
+    versionCode: 47
+    commit: 85da85cd7f53e66a9970332c0573ea4b08254147
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.8'
+    versionCode: 48
+    commit: 72c786ecd298e2c6dac6802d80f3380ae760b751
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.9'
+    versionCode: 49
+    commit: 975d56a1711904488924f1293d9fc1cec64082aa
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.10'
+    versionCode: 50
+    commit: 1c950773ac4ebf0eb7d8be6b18f99442d593fae3
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.11'
+    versionCode: 51
+    commit: 18f60eb5dd6b8f9bac117f44bba2639c846d39f8
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.12'
+    versionCode: 52
+    commit: 1e6fd1767fb40d57b444c9e05d9f25734a004ba2
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.13'
+    versionCode: 53
+    commit: 9c60a6fa02a4e17483e99f54319dc65173981cc0
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.14'
+    versionCode: 54
+    commit: 611db885c36ac71d007206f64660ae77b2d975ee
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.15'
+    versionCode: 55
+    commit: abde755496c1a2d0159cef5936a193b9060802bb
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.16'
+    versionCode: 56
+    commit: 2291eb9a76c45ea4832859bb111a1bb41da84bb3
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.17'
+    versionCode: 57
+    commit: ebedaeec043bc3836335ecbfecb1c0a86efea642
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.18'
+    versionCode: 58
+    commit: f566df410aade38b08da8b33bfeba3cbadc424f5
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.19'
+    versionCode: 59
+    commit: 46b4b9d0cb42c05c6b9e806ed9d021c8b0dbfd0b
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.7.20'
+    versionCode: 60
+    commit: 3177c96787b45bba439bf100658a8bd5a30d75f9
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.0'
+    versionCode: 61
+    commit: 4656cd84fc70bfea310a97b2bfb0edf824c93978
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.1'
+    versionCode: 62
+    commit: 64a61d44966bc054210ef053fcc472b91b01bf09
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.2'
+    versionCode: 63
+    commit: e81db50eae800658224d7b8da861823f9381f381
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.3'
+    versionCode: 64
+    commit: 8f7cdd427d65bb866359b5190b3b22da324cec1b
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.4'
+    versionCode: 65
+    commit: 487f021f83a984f6e45639ef6e713b7dd488aed3
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.5'
+    versionCode: 66
+    commit: e644770799747632a18130b26bf369ca9695ea8b
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.6'
+    versionCode: 67
+    commit: 81624bef76d335eae12164caab53b9cfc7875297
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.7'
+    versionCode: 68
+    commit: 5b6191bd71c4cd07ed156c680c79d01d9abd07f0
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.8'
+    versionCode: 69
+    commit: 492df03083cb6ecf3a233163ae4b6d973c3d6a3a
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.9'
+    versionCode: 71
+    commit: ae8686e964f30373f7fb8c892e41d41cd6601dcd
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.10'
+    versionCode: 72
+    commit: 11199ef98a70be44b2f5ff1802536a676e91b4c5
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.11'
+    versionCode: 73
+    commit: 94d0f7de076a46b9de3b791f8f3f3f64f108ed13
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.12'
+    versionCode: 74
+    commit: fea9c24abc0857ed5290ab97f33520ff3974f275
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.8.13'
+    versionCode: 75
+    commit: 342942a21e3baa66b400a757bd81c7bf57016b60
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.0'
+    versionCode: 76
+    commit: c560bd641b8bed13c5e9a7789270ba42e7c27717
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.1'
+    versionCode: 77
+    commit: 76f8dd1837acd981f3b1d5cb2a4ea7bca32a9481
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.2'
+    versionCode: 78
+    commit: 09d84d041b89d0852c89dc1db54d9db84b8fe528
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.3'
+    versionCode: 79
+    commit: 19535129e216c0ac404fd2c47798046239c405bf
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.4'
+    versionCode: 80
+    commit: ae27e952c110b21adb05da1a6e9fe09d24c57c0b
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.5'
+    versionCode: 81
+    commit: e711426c0dbf729d58bdd400af73efa81be9cb3d
+    subdir: app
+    gradle:
+      - yes
+
+  - versionName: '1.9.6'
+    versionCode: 82
+    commit: d79dbe77a4e940cdf193232b7a87aeebba982e38
+    subdir: app
+    gradle:
+      - yes
+
+AllowedAPKSigningKeys: 99a980a934cb0149bfbdd5f4358471ffe69302e0467bae4d8574d4feeda34010
+
+AutoUpdateMode: Version
+UpdateCheckMode: Tags
+CurrentVersion: 1.9.6
+CurrentVersionCode: 82

@@ -1866,8 +1866,11 @@ private fun CraftSkillSheet(
                         FilterChip(
                             selected  = selectedCategory == cat,
                             onClick   = {
-                                selectedCategory = if (selectedCategory == cat) null else cat
-                                selectedTier = null
+                                val newCat = if (selectedCategory == cat) null else cat
+                                val newTiers = (if (newCat == null) allRecipes else allRecipes.filter { it.category == newCat })
+                                    .map { it.tier }.filter { it.isNotEmpty() }.distinct()
+                                selectedCategory = newCat
+                                if (selectedTier != null && selectedTier !in newTiers) selectedTier = null
                             },
                             label     = { Text(GameStrings.craftingCategory(context, cat)) },
                         )

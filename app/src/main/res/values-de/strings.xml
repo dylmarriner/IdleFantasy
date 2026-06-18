@@ -1202,6 +1202,8 @@
     <string name="bonus_section_boosts">Aktive Boni</string>
     <string name="bonus_section_skills">Skill Bonuses</string>
     <string name="bonus_combat_stat_boost">Boosts combat stats</string>
+    <string name="bonus_combined_xp">XP gesamt</string>
+    <string name="bonus_yield">Ausbeute</string>
     <string name="snackbar_added_to_queue">Zur Warteschlange hinzugefügt: %1$s.</string>
     <string name="snackbar_queue_full">Warteschlange ist voll (3/3).</string>
     <string name="home_not_enough_coins_repeat">Nicht genug Münzen, um %1$s zu wiederholen.</string>

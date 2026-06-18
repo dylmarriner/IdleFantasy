@@ -1,0 +1,5 @@
+• Farming tool bonus (hoe efficiency) now shown on the Skills screen
+• Coin balance now visible at the top of the Shop screen
+• Skills screen shows current XP / next level threshold inline
+• French translation added (thanks widowild1)
+• Spanish translation added (thanks whyhuron)

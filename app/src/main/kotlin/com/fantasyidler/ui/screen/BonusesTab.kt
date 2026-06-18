@@ -40,8 +40,10 @@ private val COMBAT_CAPE_SKILLS = setOf(
 private data class SkillBonusEntry(
     val skillKey: String,
     val skillName: String,
-    val combinedPct: Int,
-    val sources: List<Pair<String, Int>>,
+    val xpPct: Int,
+    val yieldPct: Int,
+    val xpSources: List<Pair<String, Int>>,
+    val yieldSource: String?,
 )
 
 @Composable
@@ -78,16 +80,17 @@ internal fun BonusesTab(
         val totalPetPct    = specificPetPct + allPetBoostPct
         val prestigePct    = (state.skillPrestige[skillKey] ?: 0) * 10
 
-        val sources = buildList {
-            if (capePct > 0)      add("${cape!!.displayName} (yield)" to capePct)
+        val xpSources = buildList {
             if (totalPetPct > 0)  add(context.getString(R.string.label_pets) to totalPetPct)
             if (prestigePct > 0)  add(context.getString(R.string.prestige) to prestigePct)
         }
         SkillBonusEntry(
             skillKey    = skillKey,
             skillName   = GameStrings.skillName(context, skillKey),
-            combinedPct = capePct + totalPetPct + prestigePct,
-            sources     = sources,
+            xpPct       = totalPetPct + prestigePct,
+            yieldPct    = capePct,
+            xpSources   = xpSources,
+            yieldSource = if (capePct > 0) cape!!.displayName else null,
         )
     }
 
@@ -107,6 +110,11 @@ internal fun BonusesTab(
         }
         return
     }
+
+    val xpBoostFactor   = if (boostActive) 2.0 else 1.0
+    val blessingFactor  = if (blessingActive) 1.0 + state.activeBlessingXpPct / 100.0 else 1.0
+    val combinedXpMult  = xpBoostFactor * blessingFactor
+    val showCombined    = boostActive && blessingActive
 
     LazyColumn(modifier = Modifier.fillMaxSize()) {
         if (boostActive || blessingActive || showAllPetsInBoosts) {
@@ -132,6 +140,16 @@ internal fun BonusesTab(
                         pct    = "+${state.activeBlessingXpPct}%",
                         scope  = stringResource(R.string.bonus_all_skills),
                         detail = stringResource(R.string.church_expires_in, remaining),
+                    )
+                }
+            }
+            if (showCombined) {
+                item {
+                    val multStr = "%.2f".format(combinedXpMult).trimEnd('0').trimEnd('.')
+                    BonusRow(
+                        name  = stringResource(R.string.bonus_combined_xp),
+                        pct   = "${multStr}×",
+                        scope = stringResource(R.string.bonus_all_skills),
                     )
                 }
             }
@@ -162,13 +180,23 @@ internal fun BonusesTab(
         if (skillEntries.isNotEmpty()) {
             item { SlotSectionHeader(stringResource(R.string.bonus_section_skills)) }
             items(skillEntries, key = { it.skillKey }) { entry ->
-                val detail = entry.sources.joinToString(" • ") { (label, pct) -> "$label +$pct%" }
-                BonusRow(
-                    name   = entry.skillName,
-                    pct    = "+${entry.combinedPct}%",
-                    scope  = "",
-                    detail = detail.ifEmpty { null },
-                )
+                if (entry.xpPct > 0) {
+                    val xpDetail = entry.xpSources.joinToString(" • ") { (label, pct) -> "$label +$pct%" }
+                    BonusRow(
+                        name   = entry.skillName,
+                        pct    = "+${entry.xpPct}% XP",
+                        scope  = "",
+                        detail = xpDetail.ifEmpty { null },
+                    )
+                }
+                if (entry.yieldPct > 0) {
+                    BonusRow(
+                        name   = entry.skillName,
+                        pct    = "+${entry.yieldPct}% ${stringResource(R.string.bonus_yield)}",
+                        scope  = "",
+                        detail = entry.yieldSource,
+                    )
+                }
             }
         }
 

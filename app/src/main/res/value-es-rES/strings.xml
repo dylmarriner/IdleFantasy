@@ -1295,4 +1295,6 @@
     <string name="armory_source_drop_chance">Dropped by %1$s (%2$s)</string>
     <string name="armory_source_drop">Dropped by %1$s</string>
     <string name="armory_source_shop">Shop</string>
+    <string name="bonus_combined_xp">Combined XP</string>
+    <string name="bonus_yield">yield</string>
 </resources>

@@ -1,0 +1,3 @@
+• Fixed: crafting queue no longer locks out materials when items are queued or in session
+• Fixed: queued sessions no longer silently drop if auto-start fails after a session completes
+• New: session results are now shown individually per slot rather than batched together

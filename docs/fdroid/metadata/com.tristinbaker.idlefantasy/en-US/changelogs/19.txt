@@ -1,0 +1,9 @@
+• New: German (Deutsch) translation added
+• New: Herblore potions now show their stat effects in the craft list
+• New: Onion Brew (+2 Attack, +1 Strength) and Carrot Brew (+2 Ranged) added to Herblore
+• New: Language selector is now a dropdown instead of chips
+• Fix: Farming hoes now correctly apply efficiency bonus to crop yield (#67)
+• Fix: Herblore no longer silently drops when queued after another craft (#71)
+• Fix: Harvesting crops now returns seeds (#72)
+• Fix: Bottom nav always returns to the root of a tab, not a saved sub-screen (#69)
+• Fix: Rapidly tapping the back button no longer causes a blank screen (#76)

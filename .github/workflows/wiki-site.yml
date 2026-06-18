@@ -33,3 +33,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: out/IdleFantasy-site
           cname: idlefantasy.tristinbaker.xyz
+          keep_files: true

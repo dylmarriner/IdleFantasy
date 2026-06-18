@@ -2286,9 +2286,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "mining",
-    "requirements": {
-      "mining": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "woodcutting_cape": {
@@ -2301,9 +2299,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "woodcutting",
-    "requirements": {
-      "woodcutting": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "fishing_cape": {
@@ -2316,9 +2312,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "fishing",
-    "requirements": {
-      "fishing": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "farming_cape": {
@@ -2331,9 +2325,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "farming",
-    "requirements": {
-      "farming": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "smithing_cape": {
@@ -2346,9 +2338,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "smithing",
-    "requirements": {
-      "smithing": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "cooking_cape": {
@@ -2361,9 +2351,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "cooking",
-    "requirements": {
-      "cooking": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "fletching_cape": {
@@ -2376,9 +2364,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "fletching",
-    "requirements": {
-      "fletching": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "crafting_cape": {
@@ -2391,9 +2377,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "crafting",
-    "requirements": {
-      "crafting": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "runecrafting_cape": {
@@ -2406,9 +2390,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "runecrafting",
-    "requirements": {
-      "runecrafting": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "firemaking_cape": {
@@ -2421,9 +2403,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "firemaking",
-    "requirements": {
-      "firemaking": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "agility_cape": {
@@ -2436,9 +2416,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "agility",
-    "requirements": {
-      "agility": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "prayer_cape": {
@@ -2451,9 +2429,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "prayer",
-    "requirements": {
-      "prayer": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "attack_cape": {
@@ -2466,9 +2442,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "attack",
-    "requirements": {
-      "attack": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "strength_cape": {
@@ -2481,9 +2455,7 @@
     "strength_bonus": 5,
     "defense_bonus": 5,
     "cape_skill": "strength",
-    "requirements": {
-      "strength": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "defense_cape": {
@@ -2496,9 +2468,7 @@
     "strength_bonus": 0,
     "defense_bonus": 15,
     "cape_skill": "defense",
-    "requirements": {
-      "defense": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "magic_cape": {
@@ -2512,9 +2482,7 @@
     "defense_bonus": 5,
     "magic_damage_bonus": 5,
     "cape_skill": "magic",
-    "requirements": {
-      "magic": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "ranged_cape": {
@@ -2527,9 +2495,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "ranged",
-    "requirements": {
-      "ranged": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "hp_cape": {
@@ -2542,9 +2508,7 @@
     "strength_bonus": 0,
     "defense_bonus": 5,
     "cape_skill": "hp",
-    "requirements": {
-      "hitpoints": 99
-    },
+    "requirements": {},
     "cape_bonus": 0.1
   },
   "bronze_boots": {
@@ -3546,7 +3510,9 @@
     "attack_bonus": 0,
     "strength_bonus": 8,
     "defense_bonus": 0,
-    "requirements": { "strength": 30 }
+    "requirements": {
+      "strength": 30
+    }
   },
   "tricksters_amulet": {
     "name": "tricksters_amulet",

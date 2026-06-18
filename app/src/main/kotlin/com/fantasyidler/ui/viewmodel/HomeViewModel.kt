@@ -295,9 +295,8 @@ class HomeViewModel @Inject constructor(
             val capeBonus    = equippedCape?.capeBonus ?: 0f
             val boostActive      = flags.xpBoostExpiresAt > System.currentTimeMillis()
             val xpMult           = if (boostActive) 2L else 1L
-            val prayerCapeMult   = if (capeSkill == "prayer") 1f + capeBonus else 1f
-            val blessingXpMult   = ChurchRepository.xpMultiplier(flags) * prayerCapeMult
-            val blessingCoinMult = ChurchRepository.coinMultiplier(flags) * prayerCapeMult
+            val blessingXpMult   = ChurchRepository.xpMultiplier(flags)
+            val blessingCoinMult = ChurchRepository.coinMultiplier(flags)
 
             // ── Accumulators ──────────────────────────────────────────────
             val combinedXpBySkill       = mutableMapOf<String, Long>()

@@ -13,7 +13,7 @@ local.properties
 *.keystore
 CLAUDE.md
 docs/fdroid/config.yml
-docs/fdroid/*
+docs/fdroid/tmp/
 __pycache__
 out
 .venv
