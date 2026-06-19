@@ -611,7 +611,7 @@ private fun WorkerCraftRecipeRow(
     ) {
         Column(Modifier.weight(1f)) {
             Text(
-                text       = recipe.displayName,
+                text       = GameStrings.itemName(context, recipe.outputKey),
                 style      = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Medium,
                 color      = if (enabled) MaterialTheme.colorScheme.onSurface else dim,
@@ -727,7 +727,7 @@ private fun WorkerCraftQuantityContent(
     ) {
         TextButton(onClick = onBack) { Text(stringResource(R.string.btn_back_arrow)) }
         Text(
-            text       = recipe.displayName,
+            text       = GameStrings.itemName(context, recipe.outputKey),
             style      = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
         )

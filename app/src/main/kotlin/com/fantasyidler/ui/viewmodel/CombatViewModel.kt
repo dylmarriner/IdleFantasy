@@ -722,7 +722,20 @@ class CombatViewModel @Inject constructor(
         val bossMagicLevel   = bossSkillLevels[Skills.MAGIC]  ?: 1
         val arrowsReclaimed  = allArrowsConsumed.mapValues { (_, qty) -> (qty * reclaimChance(bossRangedLevel)).toInt() }.filterValues { it > 0 }
         val runesReclaimed   = allRunesConsumed.mapValues  { (_, qty) -> (qty * reclaimChance(bossMagicLevel)).toInt()  }.filterValues { it > 0 }
-        val capes = playerRepo.applyMultiSkillResults(last.xpBySkill, loot, coinsGained)
+        val bossOwnedPets    = playerRepo.getOwnedPets()
+        val perSkillPetBoostPct = last.xpBySkill.keys.associateWith { skill ->
+            bossOwnedPets.sumOf { ownedPet ->
+                val pd = gameData.pets[ownedPet.id]
+                if (pd == null) 0
+                else when {
+                    pd.boostedSkill == "all" -> pd.boostPercent
+                    pd.boostedSkill == skill -> pd.boostPercent
+                    pd.boostedSkill == "combat" && skill in Skills.COMBAT -> pd.boostPercent
+                    else -> 0
+                }
+            }
+        }.filterValues { it > 0 }
+        val capes = playerRepo.applyMultiSkillResults(last.xpBySkill, loot, coinsGained, perSkillPetBoostPct = perSkillPetBoostPct)
         if (allFoodConsumed.isNotEmpty())   playerRepo.consumeItems(allFoodConsumed)
         if (allArrowsConsumed.isNotEmpty()) playerRepo.consumeItems(allArrowsConsumed)
         if (arrowsReclaimed.isNotEmpty())   playerRepo.addItems(arrowsReclaimed)
@@ -742,7 +755,13 @@ class CombatViewModel @Inject constructor(
             playerRepo.recordWeeklyProgress("boss", session.activityKey, 1)
             guildRepo.recordGuildCombat(mapOf(session.activityKey to 1), last.combatStyle.ifEmpty { "melee" })
         }
-        val xpDisplayBySkill = last.xpBySkill.mapValues { (_, xp) -> (xp * boostMult * blessingXpMult).toLong() }
+        val xpDisplayBySkill = last.xpBySkill.mapValues { (skill, xp) ->
+            val petPct = perSkillPetBoostPct[skill] ?: 0
+            val withPet = if (petPct > 0) (xp * (1.0 + petPct / 100.0)).toLong() else xp
+            val afterBoostBlessing = (withPet * boostMult * blessingXpMult).toLong()
+            val prestigeLevel = bossFlags.skillPrestige[skill] ?: 0
+            if (prestigeLevel > 0) (afterBoostBlessing * (1.0 + prestigeLevel * 0.10)).toLong() else afterBoostBlessing
+        }
         val xpBlessingBonusBySkill = last.xpBySkill.mapValues { (_, xp) ->
             val boosted = xp * boostMult
             ((boosted.toDouble() * blessingXpMult).toLong() - boosted).coerceAtLeast(0L)
@@ -849,7 +868,11 @@ class CombatViewModel @Inject constructor(
             }
             playerRepo.incrementDungeonRun(session.activityKey)
         }
-        val xpDisplayBySkill = totalXpPerSkill.mapValues { (_, xp) -> (xp * boostMult * blessingXpMult).toLong() }
+        val xpDisplayBySkill = totalXpPerSkill.mapValues { (skill, xp) ->
+            val afterBoostBlessing = (xp * boostMult * blessingXpMult).toLong()
+            val prestigeLevel = dungeonFlags.skillPrestige[skill] ?: 0
+            if (prestigeLevel > 0) (afterBoostBlessing * (1.0 + prestigeLevel * 0.10)).toLong() else afterBoostBlessing
+        }
         val xpBlessingBonusBySkill = totalXpPerSkill.mapValues { (_, xp) ->
             val boosted = xp * boostMult
             ((boosted.toDouble() * blessingXpMult).toLong() - boosted).coerceAtLeast(0L)
@@ -1032,15 +1055,15 @@ class CombatViewModel @Inject constructor(
         "runite_arrow"     to 10,
     )
 
-    /** Returns the pet XP boost % for any combat pet the player owns. */
+    /** Returns the combined XP boost % from all "combat" and "all" pets the player owns. */
     private fun petBoostFor(petsJson: String): Int {
         val pets = try {
             json.decodeFromString<List<OwnedPet>>(petsJson)
         } catch (_: Exception) { return 0 }
-        val petId = pets.firstOrNull { pet ->
-            gameData.pets[pet.id]?.boostedSkill in Skills.COMBAT || gameData.pets[pet.id]?.boostedSkill == "all"
-        } ?: return 0
-        return gameData.pets[petId.id]?.boostPercent ?: 0
+        return pets.sumOf { pet ->
+            val pd = gameData.pets[pet.id]
+            if (pd != null && (pd.boostedSkill == "combat" || pd.boostedSkill == "all")) pd.boostPercent else 0
+        }
     }
 }
 

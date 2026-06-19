@@ -440,6 +440,7 @@ class PlayerRepository @Inject constructor(
         itemsGained: Map<String, Int>,
         coinsGained: Long = 0L,
         efficiencyMultiplier: Float = 1.0f,
+        perSkillPetBoostPct: Map<String, Int> = emptyMap(),
     ): List<String> {
         val player    = getOrCreatePlayer()
         val flags: PlayerFlags = json.decodeFromString(player.flags)
@@ -458,7 +459,12 @@ class PlayerRepository @Inject constructor(
         for ((skill, xp) in xpPerSkill) {
             val oldLevel = XpTable.levelForXp(xpMap[skill] ?: 0L)
             val scaledXp = if (efficiencyMultiplier == 1.0f) xp else (xp * efficiencyMultiplier).toLong()
-            val newXp = (xpMap[skill] ?: 0L) + (scaledXp * boostMult * xpBlessingMult).toLong()
+            val petPct = perSkillPetBoostPct[skill] ?: 0
+            val withPet = if (petPct > 0) (scaledXp * (1.0 + petPct / 100.0)).toLong() else scaledXp
+            val afterBoostBlessing = (withPet * boostMult * xpBlessingMult).toLong()
+            val prestigeLevel = flags.skillPrestige[skill] ?: 0
+            val finalXp = if (prestigeLevel > 0) (afterBoostBlessing * (1.0 + prestigeLevel * 0.10)).toLong() else afterBoostBlessing
+            val newXp = (xpMap[skill] ?: 0L) + finalXp
             xpMap[skill]  = newXp
             levels[skill] = XpTable.levelForXp(newXp)
             if (oldLevel < 99 && levels[skill]!! >= 99) {

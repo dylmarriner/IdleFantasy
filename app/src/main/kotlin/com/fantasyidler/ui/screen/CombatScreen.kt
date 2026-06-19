@@ -1575,7 +1575,7 @@ private fun DungeonInfoSheet(
             dungeon.enemySpawns.forEach { spawn ->
                 val hasStats = enemies.containsKey(spawn.enemy)
                 Text(
-                    text     = "• ${GameStrings.itemName(context, spawn.enemy)}",
+                    text     = "• ${GameStrings.enemyName(context, spawn.enemy)}",
                     style    = MaterialTheme.typography.bodySmall,
                     color    = if (hasStats) MaterialTheme.colorScheme.primary
                                else MaterialTheme.colorScheme.onSurface,

@@ -232,11 +232,13 @@ class CraftingViewModel @Inject constructor(
 
     val fletchingRecipes: List<CraftableRecipe> by lazy {
         gameData.fletchingRecipes.map { (_, r) ->
-            val category = when (r.type) {
-                "component"  -> "Component"
-                "ammunition" -> "Ammunition"
-                "weapon"     -> "Weapon"
-                else         -> ""
+            val isPlank = r.itemName == "plank" || r.itemName.endsWith("_plank")
+            val category = when {
+                isPlank              -> "Plank"
+                r.type == "component"  -> "Component"
+                r.type == "ammunition" -> "Ammunition"
+                r.type == "weapon"     -> "Weapon"
+                else                   -> ""
             }
             CraftableRecipe(
                 key                 = r.itemName,

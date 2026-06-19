@@ -381,7 +381,8 @@ class GuildRepository @Inject constructor(
         }
         val rng = Random(today.toLong())
         val selectedIds = mutableListOf<String>()
-        val farmingLevel = skillLevels["farming"] ?: 1
+        val farmingLevel  = skillLevels["farming"]  ?: 1
+        val thievingLevel = skillLevels["thieving"] ?: 1
 
         for (guild in ALL_GUILDS) {
             val guildRep = flags.guildReputation[guild] ?: 0L
@@ -391,10 +392,17 @@ class GuildRepository @Inject constructor(
             val eligible = gameData.guildDailyPool
                 .filter { it.guild == guild && effectiveLevel >= it.guildLevelMin && effectiveLevel <= it.guildLevelMax }
                 .filter { template ->
-                    if (template.guild == "farming" && template.type == "gather") {
-                        val cropLevel = gameData.crops[template.target]?.levelRequired ?: 1
-                        farmingLevel >= cropLevel
-                    } else true
+                    when {
+                        template.guild == "farming" && template.type == "gather" -> {
+                            val cropLevel = gameData.crops[template.target]?.levelRequired ?: 1
+                            farmingLevel >= cropLevel
+                        }
+                        template.guild == "thieving" && template.type == "pickpocket" -> {
+                            val npcLevel = gameData.thievingNpcs[template.target]?.levelRequired ?: 1
+                            thievingLevel >= npcLevel
+                        }
+                        else -> true
+                    }
                 }
                 .shuffled(rng)
             selectedIds.addAll(eligible.take(2).map { it.id })
