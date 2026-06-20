@@ -601,9 +601,16 @@ Builds:
     gradle:
       - yes
 
+  - versionName: '1.9.10'
+    versionCode: 86
+    commit: 92cc49bb066571c664867ff72525a326b4111742
+    subdir: app
+    gradle:
+      - yes
+
 AllowedAPKSigningKeys: 99a980a934cb0149bfbdd5f4358471ffe69302e0467bae4d8574d4feeda34010
 
 AutoUpdateMode: Version
 UpdateCheckMode: Tags
-CurrentVersion: 1.9.9
-CurrentVersionCode: 85
+CurrentVersion: 1.9.10
+CurrentVersionCode: 86
