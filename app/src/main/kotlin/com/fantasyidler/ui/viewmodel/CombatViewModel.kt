@@ -346,6 +346,7 @@ class CombatViewModel @Inject constructor(
                         weaponSlot          = queuedWeaponSlot,
                     )
                 )
+                if (enqueued) queuedSessionStarter.startNextQueued()
                 _extra.update {
                     it.copy(
                         snackbarMessage    = if (enqueued) context.getString(R.string.snackbar_added_to_queue, dungeonName) else context.getString(R.string.snackbar_queue_full),
@@ -545,6 +546,7 @@ class CombatViewModel @Inject constructor(
                         weaponSlot          = bossWeaponSlot,
                     )
                 )
+                if (enqueued) queuedSessionStarter.startNextQueued()
                 _extra.update {
                     it.copy(
                         snackbarMessage    = if (enqueued) context.getString(R.string.snackbar_added_to_queue, bossName) else context.getString(R.string.snackbar_queue_full),

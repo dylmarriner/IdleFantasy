@@ -353,6 +353,7 @@ class SkillsViewModel @Inject constructor(
             if (sessionRepo.getActiveSession() != null) {
                 val enqueued = playerRepo.enqueueAction(action)
                 if (enqueued) playerRepo.consumeItems(mapOf(logKey to actualQty))
+                if (enqueued) queuedSessionStarter.startNextQueued()
                 _uiState.update {
                     it.copy(
                         snackbarMessage = if (enqueued) context.getString(R.string.slayer_queue_added, "Firemaking") else context.getString(R.string.slayer_queue_full),
@@ -412,6 +413,7 @@ class SkillsViewModel @Inject constructor(
                         val ashCost = (qty + 9) / 10
                         playerRepo.consumeItems(mapOf(catalystKey to ashCost))
                     }
+                    queuedSessionStarter.startNextQueued()
                 }
                 _uiState.update {
                     it.copy(
@@ -512,6 +514,7 @@ class SkillsViewModel @Inject constructor(
                     )
                 )
                 if (enqueued) playerRepo.consumeItems(mapOf(boneKey to qty))
+                if (enqueued) queuedSessionStarter.startNextQueued()
                 _uiState.update {
                     it.copy(
                         snackbarMessage = if (enqueued) context.getString(R.string.skill_added_to_queue_activity, "Prayer", bone.displayName) else context.getString(R.string.slayer_queue_full),
@@ -604,6 +607,7 @@ class SkillsViewModel @Inject constructor(
                         estimatedDurationMs = SkillSimulator.sessionDurationMs(agility),
                     )
                 )
+                if (enqueued) queuedSessionStarter.startNextQueued()
                 _uiState.update {
                     it.copy(
                         sheetSkill = null,
@@ -697,6 +701,7 @@ class SkillsViewModel @Inject constructor(
                         estimatedDurationMs = SkillSimulator.sessionDurationMs(agility, agilityPrestige),
                     )
                 )
+                if (enqueued) queuedSessionStarter.startNextQueued()
                 _uiState.update {
                     it.copy(
                         sheetSkill = null,

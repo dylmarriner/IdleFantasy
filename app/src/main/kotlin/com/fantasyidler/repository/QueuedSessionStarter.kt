@@ -1,6 +1,8 @@
 package com.fantasyidler.repository
 
 import com.fantasyidler.data.json.CookingRecipe
+import com.fantasyidler.data.json.DungeonData
+import com.fantasyidler.data.json.EnemySpawn
 import com.fantasyidler.data.model.EquipSlot
 import com.fantasyidler.data.model.OwnedPet
 import com.fantasyidler.data.model.PlayerFlags
@@ -546,6 +548,74 @@ class QueuedSessionStarter @Inject constructor(
                 }
                 startSession(action, result, offline, backdateMs)
             }
+            "tower" -> {
+                val floor   = flags.towerCurrentFloor + 1
+                val dungeon = buildTowerFloorDungeon(floor)
+                val activeWeaponSlot = flags.activeWeaponSlot
+                    ?: EquipSlot.WEAPON_SLOTS.firstOrNull { equipped[it] != null }
+                    ?: EquipSlot.WEAPON
+                val weaponKey   = equipped[activeWeaponSlot]
+                val weapon      = weaponKey?.let { gameData.equipment[it] }
+                val combatStyle = when (weapon?.combatStyle) {
+                    "ranged"   -> "ranged"
+                    "magic"    -> "magic"
+                    "strength" -> "strength"
+                    else       -> "attack"
+                }
+                val totalAtkBonus = EquipSlot.ARMOR_SLOTS.sumOf { slot ->
+                    val eq = gameData.equipment[equipped[slot]]
+                    when (combatStyle) { "ranged" -> eq?.rangedAttackBonus ?: 0; "magic" -> eq?.magicAttackBonus ?: 0; else -> eq?.attackBonus ?: 0 }
+                } + when (combatStyle) { "ranged" -> weapon?.rangedAttackBonus ?: weapon?.attackBonus ?: 0; "magic" -> weapon?.magicAttackBonus ?: 0; else -> weapon?.attackBonus ?: 0 }
+                val totalStrBonus     = EquipSlot.ARMOR_SLOTS.sumOf { gameData.equipment[equipped[it]]?.strengthBonus ?: 0 } + (weapon?.strengthBonus ?: 0)
+                val totalDefBonus     = EquipSlot.ARMOR_SLOTS.sumOf { gameData.equipment[equipped[it]]?.defenseBonus  ?: 0 } + (weapon?.defenseBonus  ?: 0)
+                val totalMagicDmgBonus = if (combatStyle == "magic") EquipSlot.ARMOR_SLOTS.sumOf { gameData.equipment[equipped[it]]?.magicDamageBonus ?: 0 } + (weapon?.magicDamageBonus ?: 0) else 0
+                val bestArrow       = ARROW_TIERS.firstOrNull { (inventory[it] ?: 0) > 0 }
+                val arrowBonus      = bestArrow?.let { ARROW_STRENGTH_BONUS[it] } ?: 0
+                val availableArrows = if (bestArrow != null) mapOf(bestArrow to (inventory[bestArrow] ?: 0)) else emptyMap()
+                val spell           = gameData.spells[flags.activeSpell]
+                val equippedFoodKeys = flags.equippedFood.keys
+                val prevFoodConsumed = pendingFoodConsumed()
+                val availableFood    = inventory.filterKeys { it in equippedFoodKeys }
+                    .mapValues { (k, v) -> (v - (prevFoodConsumed[k] ?: 0)).coerceAtLeast(0) }
+                    .filterValues { it > 0 }
+                val pm = flags.skillPrestige
+                val result = CombatSimulator.simulateDungeon(
+                    dungeon             = dungeon,
+                    enemies             = gameData.enemies,
+                    playerAttack        = ((levels[Skills.ATTACK]   ?: 1) * combatCapeMult).toInt() + (pm[Skills.ATTACK]    ?: 0) * 5,
+                    playerStrength      = ((levels[Skills.STRENGTH] ?: 1) * combatCapeMult).toInt() + (pm[Skills.STRENGTH]  ?: 0) * 5,
+                    playerDefence       = ((levels[Skills.DEFENSE]  ?: 1) * combatCapeMult).toInt() + totalDefBonus + (pm[Skills.DEFENSE] ?: 0) * 5,
+                    playerHp            = (levels[Skills.HITPOINTS] ?: 1) + (pm[Skills.HITPOINTS] ?: 0) * 5 + flags.towerHpBonus,
+                    blessingDefBonus    = (ChurchRepository.defBonus(flags) * prayerCapeMult).toInt(),
+                    weaponAttackBonus   = totalAtkBonus,
+                    weaponStrengthBonus = totalStrBonus,
+                    combatStyle         = combatStyle,
+                    playerRanged        = ((levels[Skills.RANGED] ?: 1) * combatCapeMult).toInt() + (pm[Skills.RANGED] ?: 0) * 5,
+                    playerMagic         = ((levels[Skills.MAGIC]  ?: 1) * combatCapeMult).toInt() + (pm[Skills.MAGIC]  ?: 0) * 5,
+                    arrowStrengthBonus  = arrowBonus,
+                    spellMaxHit         = (spell?.maxHit ?: 0) + totalMagicDmgBonus,
+                    agilityLevel        = agilityLevel,
+                    petBoostPct         = combatPetBoost(player.pets),
+                    equippedFood        = availableFood,
+                    foodHealValues      = gameData.foodHealValues,
+                    availableArrows     = availableArrows,
+                )
+                val totalKills = result.frames.sumOf { it.kills }
+                if (combatStyle == "magic" && spell != null && totalKills > 0) {
+                    val staffCoversRune = weapon?.infiniteRunes == "all" || weapon?.infiniteRunes == spell.runeType
+                    if (!staffCoversRune)
+                        playerRepo.consumeItems(mapOf(spell.runeType to totalKills * spell.runeCost))
+                }
+                sessionRepo.startSession(
+                    skillName         = "tower",
+                    activityKey       = "tower_floor_$floor",
+                    frames            = encodeFrames(result.frames),
+                    durationMs        = result.durationMs,
+                    skillDisplayName  = "Infinite Tower: Floor $floor",
+                    insertAsCompleted = offline,
+                    backdateMs        = backdateMs,
+                )
+            }
             "carnival" -> {
                 val relevantSkillLevel = when (action.activityKey) {
                     "archery_range"         -> levels[Skills.RANGED]   ?: 1
@@ -695,6 +765,25 @@ class QueuedSessionStarter @Inject constructor(
         "redwood_ashes" -> 7
         else            -> 0
     }
+
+    private val FLOOR_TIERS: List<Pair<IntRange, List<EnemySpawn>>> = listOf(
+        (1..20)              to listOf(EnemySpawn("goblin", 40), EnemySpawn("skeleton", 30), EnemySpawn("zombie", 30)),
+        (21..40)             to listOf(EnemySpawn("orc_warrior", 40), EnemySpawn("dark_wizard", 30), EnemySpawn("bandit", 30)),
+        (41..60)             to listOf(EnemySpawn("cave_troll", 35), EnemySpawn("shadow_beast", 35), EnemySpawn("demon", 30)),
+        (61..80)             to listOf(EnemySpawn("forge_demon", 35), EnemySpawn("shadow_assassin", 35), EnemySpawn("abyssal_leech", 30)),
+        (81..100)            to listOf(EnemySpawn("void_stalker", 35), EnemySpawn("void_guardian", 35), EnemySpawn("abyssal_lord", 30)),
+        (101..Int.MAX_VALUE) to listOf(EnemySpawn("void_archon", 35), EnemySpawn("eternal_sentinel", 35), EnemySpawn("abyssal_lord", 30)),
+    )
+
+    private fun buildTowerFloorDungeon(floor: Int): DungeonData = DungeonData(
+        name             = "tower_floor_$floor",
+        displayName      = "Floor $floor",
+        description      = "Infinite Tower floor $floor",
+        recommendedLevel = (floor * 2).coerceAtMost(200),
+        encounterRate    = 0.65,
+        enemySpawns      = FLOOR_TIERS.firstOrNull { (range, _) -> floor in range }?.second
+            ?: FLOOR_TIERS.last().second,
+    )
 
     private val ARROW_TIERS = listOf(
         "runite_arrow", "adamantite_arrow", "mithril_arrow",

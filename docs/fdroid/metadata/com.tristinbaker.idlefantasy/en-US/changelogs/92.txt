@@ -1,0 +1,6 @@
+• Fix item appraisal correct answer always appearing in the top-left position; choices are now shuffled each round
+• Fix agility session duration in the skills pane not reflecting prestige level; the displayed time now matches what actually queues
+• Add Infinite Tower: an endless combat gauntlet accessible from the Combat screen; survive each floor to advance, death resets to floor 1, best floor is permanent; 25 milestone rewards every 10 floors up to floor 250 including unique gear, passive XP/HP/coin bonuses, and the Void Staff (grants infinite runes for all spell types) at floor 250
+• Add six Tower achievements (First Step through Void Conqueror) and a Tower Legend achievement for claiming all milestones
+• Fix Town achievements incorrectly referencing three buildings instead of four
+

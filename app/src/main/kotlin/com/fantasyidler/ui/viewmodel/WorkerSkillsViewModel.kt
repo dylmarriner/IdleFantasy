@@ -59,6 +59,7 @@ data class WorkerSkillsUiState(
     val inventory: Map<String, Int> = emptyMap(),
     val selectedRecipe: CraftableRecipe? = null,
     val craftQuantity: Int = 1,
+    val herbloreAshKey: String? = null,
 ) {
     val currentSession: SkillSession? get() = if (selectedSlot == 2) activeSession2 else activeSession
     val currentWorker: HiredWorker? get() = if (selectedSlot == 2) hiredWorker2 else hiredWorker
@@ -499,7 +500,9 @@ class WorkerSkillsViewModel @Inject constructor(
         _uiState.update { it.copy(selectedRecipe = recipe, craftQuantity = max) }
     }
 
-    fun dismissRecipe() = _uiState.update { it.copy(selectedRecipe = null) }
+    fun dismissRecipe() = _uiState.update { it.copy(selectedRecipe = null, herbloreAshKey = null) }
+
+    fun setHerbloreAsh(key: String?) = _uiState.update { it.copy(herbloreAshKey = key) }
 
     fun setQuantity(qty: Int, max: Int) =
         _uiState.update { it.copy(craftQuantity = qty.coerceIn(1, max.coerceAtLeast(1))) }
@@ -521,6 +524,7 @@ class WorkerSkillsViewModel @Inject constructor(
                 _uiState.update { it.copy(snackbarMessage = context.getString(R.string.worker_not_enough_materials), selectedRecipe = null, sheetSkill = null) }
                 return@launch
             }
+            val ashKey = if (recipe.skillName == Skills.HERBLORE) _uiState.value.herbloreAshKey else null
             val enqueued = playerRepo.enqueueWorkerAction(
                 slot,
                 QueuedAction(
@@ -529,11 +533,12 @@ class WorkerSkillsViewModel @Inject constructor(
                     skillDisplayName    = recipe.skillName.replaceFirstChar { it.uppercase() },
                     qty                 = qty,
                     estimatedDurationMs = qty.toLong() * perItemMs,
+                    catalystKey         = ashKey,
                 )
             )
             if (enqueued) {
                 workerStarter.startNextQueued(slot)
-                _uiState.update { it.copy(selectedRecipe = null, sheetSkill = null) }
+                _uiState.update { it.copy(selectedRecipe = null, sheetSkill = null, herbloreAshKey = null) }
             } else {
                 for ((item, needed) in totalMaterials) playerRepo.addItem(item, needed)
                 _uiState.update { it.copy(snackbarMessage = context.getString(R.string.worker_already_busy), selectedRecipe = null, sheetSkill = null) }

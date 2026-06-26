@@ -325,9 +325,46 @@ class HomeViewModel @Inject constructor(
             val craftingSkills  = setOf(Skills.SMITHING, Skills.COOKING, Skills.FLETCHING, Skills.CRAFTING, Skills.HERBLORE, Skills.FIREMAKING, Skills.RUNECRAFTING, Skills.CONSTRUCTION)
 
             for (session in sessions) {
-                if (session.skillName == "tower") continue
                 val frames: List<SessionFrame> = json.decodeFromString(session.frames)
                 when (session.skillName) {
+                    "tower" -> {
+                        val playerDied = frames.any { it.died }
+                        if (playerDied) anyDied = true
+                        val towerXpPerSkill = mutableMapOf<String, Long>()
+                        val towerAllItems   = mutableMapOf<String, Int>()
+                        val towerFood       = mutableMapOf<String, Int>()
+                        for (frame in frames) {
+                            for ((skill, xp) in frame.xpBySkill)    towerXpPerSkill[skill] = (towerXpPerSkill[skill] ?: 0L) + xp
+                            for ((item,  qty) in frame.items)        towerAllItems[item]     = (towerAllItems[item] ?: 0) + qty
+                            for ((food,  qty) in frame.foodConsumed) towerFood[food]         = (towerFood[food] ?: 0) + qty
+                        }
+                        if (playerDied) {
+                            towerXpPerSkill.replaceAll { _, xp -> maxOf(1L, (xp * 0.1).toLong()) }
+                            towerAllItems.replaceAll { _, qty -> maxOf(0, (qty * 0.1).toInt()) }
+                            towerAllItems.entries.removeIf { it.value == 0 }
+                        }
+                        val towerCoinsRaw    = towerAllItems.remove("coins")?.toLong() ?: 0L
+                        val towerFlags       = playerRepo.getFlags()
+                        val towerXpMult      = 1.0 + towerFlags.towerXpBonusPct / 100.0
+                        val towerCoinMult    = 1.0 + towerFlags.towerCoinBonusPct / 100.0
+                        val towerXpForRepo   = towerXpPerSkill.mapValues { (_, xp) -> (xp * towerXpMult).toLong() }
+                        val towerCoinsGained = (towerCoinsRaw * towerCoinMult).toLong()
+                        playerRepo.applyMultiSkillResults(towerXpForRepo, towerAllItems, towerCoinsGained)
+                        if (towerFood.isNotEmpty()) playerRepo.consumeItems(towerFood)
+                        val floor = session.activityKey.removePrefix("tower_floor_").toIntOrNull() ?: 1
+                        val updatedTowerFlags = playerRepo.getFlags()
+                        if (playerDied) {
+                            playerRepo.updateFlags(updatedTowerFlags.copy(towerCurrentFloor = 0))
+                        } else {
+                            playerRepo.updateFlags(updatedTowerFlags.copy(
+                                towerCurrentFloor = floor,
+                                towerBestFloor    = maxOf(updatedTowerFlags.towerBestFloor, floor),
+                            ))
+                        }
+                        for ((skill, xp) in towerXpForRepo) combinedXpBySkill[skill] = (combinedXpBySkill[skill] ?: 0L) + xp
+                        for ((item, qty) in towerAllItems)  combinedItems[item] = (combinedItems[item] ?: 0) + qty
+                        combinedCoins += towerCoinsGained
+                    }
                     "boss" -> {
                         val frame = frames.lastOrNull() ?: continue
                         val won = frame.kills > 0
@@ -414,7 +451,7 @@ class HomeViewModel @Inject constructor(
                             its.replaceAll { _, qty -> maxOf(0, (qty * 0.1).toInt()) }
                             its.entries.removeIf { it.value == 0 }
                         }
-                        val coins = (its.remove("coins")?.toLong() ?: 0L).let { if (died) maxOf(0L, (it * 0.1).toLong()) else it }
+                        val coins = its.remove("coins")?.toLong() ?: 0L
                         val pets  = its.filterKeys { it in petIds }
                         val loot  = its.filterKeys { it !in petIds }
                         var slayerXp = 0L

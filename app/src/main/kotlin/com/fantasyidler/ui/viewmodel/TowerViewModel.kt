@@ -13,11 +13,14 @@ import com.fantasyidler.data.model.SkillSession
 import com.fantasyidler.data.model.PlayerFlags
 import com.fantasyidler.data.model.SessionFrame
 import com.fantasyidler.data.model.Skills
+import com.fantasyidler.data.model.QueuedAction
 import com.fantasyidler.repository.ChurchRepository
 import com.fantasyidler.repository.GameDataRepository
 import com.fantasyidler.repository.PlayerRepository
+import com.fantasyidler.repository.QueuedSessionStarter
 import com.fantasyidler.repository.SessionRepository
 import com.fantasyidler.simulator.CombatSimulator
+import com.fantasyidler.simulator.SkillSimulator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -52,6 +55,7 @@ class TowerViewModel @Inject constructor(
     private val playerRepo: PlayerRepository,
     private val sessionRepo: SessionRepository,
     private val gameData: GameDataRepository,
+    private val queuedSessionStarter: QueuedSessionStarter,
     private val json: Json,
 ) : ViewModel() {
 
@@ -159,7 +163,25 @@ class TowerViewModel @Inject constructor(
     fun startFloor() {
         viewModelScope.launch {
             if (sessionRepo.getActiveSession() != null) {
-                _extra.update { it.copy(snackbarMessage = context.getString(R.string.error_session_already_active)) }
+                val player  = playerRepo.getOrCreatePlayer()
+                val agility = (json.decodeFromString<Map<String, Int>>(player.skillLevels))[Skills.AGILITY] ?: 1
+                val enqueued = playerRepo.enqueueAction(
+                    QueuedAction(
+                        skillName           = "tower",
+                        activityKey         = "tower",
+                        skillDisplayName    = "Infinite Tower",
+                        estimatedDurationMs = SkillSimulator.sessionDurationMs(agility),
+                    )
+                )
+                if (enqueued) queuedSessionStarter.startNextQueued()
+                _extra.update {
+                    it.copy(
+                        snackbarMessage = if (enqueued)
+                            context.getString(R.string.snackbar_added_to_queue, "Infinite Tower")
+                        else
+                            context.getString(R.string.snackbar_queue_full),
+                    )
+                }
                 return@launch
             }
             _extra.update { it.copy(startingSession = true) }
@@ -308,9 +330,7 @@ class TowerViewModel @Inject constructor(
                 allItems.entries.removeIf { it.value == 0 }
             }
 
-            var coinsGained = (allItems.remove("coins")?.toLong() ?: 0L).let {
-                if (playerDied) maxOf(0L, (it * 0.1).toLong()) else it
-            }
+            var coinsGained = allItems.remove("coins")?.toLong() ?: 0L
 
             val flags         = playerRepo.getFlags()
             val towerXpMult   = 1.0 + flags.towerXpBonusPct / 100.0
@@ -344,6 +364,7 @@ class TowerViewModel @Inject constructor(
                 sessionRepo.deleteSession(session.sessionId)
                 _extra.update { it.copy(snackbarMessage = msg) }
             }
+            queuedSessionStarter.startNextQueued()
         }
     }
 

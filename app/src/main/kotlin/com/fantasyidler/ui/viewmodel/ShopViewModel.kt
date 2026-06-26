@@ -339,10 +339,6 @@ class ShopViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Sell equipment in inventory that is strictly weaker than what's currently
-     * equipped in the same slot. Weapons are excluded per user request.
-     */
     fun previewSellOldEquipment() {
         viewModelScope.launch {
             val state     = uiState.value
@@ -353,7 +349,6 @@ class ShopViewModel @Inject constructor(
             val toolSlots = setOf(EquipSlot.PICKAXE, EquipSlot.AXE, EquipSlot.FISHING_ROD, EquipSlot.HOE)
             val toSell = mutableMapOf<String, Int>()
             for (slot in EquipSlot.ALL) {
-                if (slot == EquipSlot.WEAPON) continue
                 val equippedKey  = equipped[slot] ?: continue
                 val equippedItem = allEquip[equippedKey] ?: continue
 
@@ -378,6 +373,14 @@ class ShopViewModel @Inject constructor(
                     }
                     if (shouldSell) toSell[itemKey] = (toSell[itemKey] ?: 0) + qty
                 }
+            }
+
+            // Suggest selling extra copies of equipped items (you only need 1)
+            for ((itemKey, inInv) in inventory) {
+                val equippedCount = equipped.values.count { it == itemKey }
+                if (equippedCount == 0) continue
+                val extras = inInv - equippedCount
+                if (extras > 0) toSell[itemKey] = (toSell[itemKey] ?: 0) + extras
             }
 
             if (toSell.isEmpty()) {
@@ -534,11 +537,22 @@ class ShopViewModel @Inject constructor(
         else                  -> (item.attackBonus + item.strengthBonus + item.defenseBonus).toFloat()
     }
 
-    private fun combatDominates(a: com.fantasyidler.data.json.EquipmentData, b: com.fantasyidler.data.json.EquipmentData): Boolean =
-        a.attackBonus   >= b.attackBonus   &&
-        a.strengthBonus >= b.strengthBonus &&
-        a.defenseBonus  >= b.defenseBonus  &&
-        (a.attackBonus > b.attackBonus || a.strengthBonus > b.strengthBonus || a.defenseBonus > b.defenseBonus)
+    private fun combatDominates(a: com.fantasyidler.data.json.EquipmentData, b: com.fantasyidler.data.json.EquipmentData): Boolean {
+        if (a.attackBonus          < b.attackBonus)                       return false
+        if (a.strengthBonus        < b.strengthBonus)                     return false
+        if (a.defenseBonus         < b.defenseBonus)                      return false
+        if ((a.rangedAttackBonus   ?: 0) < (b.rangedAttackBonus   ?: 0)) return false
+        if ((a.rangedStrengthBonus ?: 0) < (b.rangedStrengthBonus ?: 0)) return false
+        if ((a.magicAttackBonus    ?: 0) < (b.magicAttackBonus    ?: 0)) return false
+        if ((a.magicDamageBonus    ?: 0) < (b.magicDamageBonus    ?: 0)) return false
+        return a.attackBonus > b.attackBonus ||
+               a.strengthBonus > b.strengthBonus ||
+               a.defenseBonus > b.defenseBonus ||
+               (a.rangedAttackBonus   ?: 0) > (b.rangedAttackBonus   ?: 0) ||
+               (a.rangedStrengthBonus ?: 0) > (b.rangedStrengthBonus ?: 0) ||
+               (a.magicAttackBonus    ?: 0) > (b.magicAttackBonus    ?: 0) ||
+               (a.magicDamageBonus    ?: 0) > (b.magicDamageBonus    ?: 0)
+    }
 
     private fun Long.toCoinsString(): String =
         if (this >= 1_000_000) "${"%.1f".format(this / 1_000_000.0)}M"

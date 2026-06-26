@@ -200,9 +200,12 @@ class WorkerQueuedSessionStarter @Inject constructor(
                 startSession(slot, action, frames, durationMs, efficiencyMultiplier)
             }
             Skills.HERBLORE -> {
-                val r   = gameData.herbloreRecipes[action.activityKey] ?: return
-                val qty = action.qty.takeIf { it > 0 } ?: return
-                val frames = buildCraftFrames(xpMap[Skills.HERBLORE] ?: 0L, qty, r.xpPerItem, r.outputQuantity, action.activityKey)
+                val r           = gameData.herbloreRecipes[action.activityKey] ?: return
+                val qty         = action.qty.takeIf { it > 0 } ?: return
+                val catalystKey = action.catalystKey
+                val outputKey   = if (catalystKey != null) "enhanced_${action.activityKey}" else action.activityKey
+                if (catalystKey != null) playerRepo.consumeItems(mapOf(catalystKey to qty))
+                val frames = buildCraftFrames(xpMap[Skills.HERBLORE] ?: 0L, qty, r.xpPerItem, r.outputQuantity, outputKey)
                 startSession(slot, action, frames, durationMs, efficiencyMultiplier)
             }
             Skills.CONSTRUCTION -> {

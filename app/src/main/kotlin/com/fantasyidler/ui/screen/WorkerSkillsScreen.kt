@@ -487,6 +487,7 @@ private fun WorkerCraftSkillSheet(
             isQueueFull   = isQueueFull,
             context       = context,
             onSetQuantity = { viewModel.setQuantity(it, minOf(state.maxCraftable(selected), state.maxCraftQty)) },
+            onSetAsh      = if (selected.skillName == Skills.HERBLORE) viewModel::setHerbloreAsh else null,
             onCraft       = viewModel::craft,
             onBack        = viewModel::dismissRecipe,
         )
@@ -723,6 +724,7 @@ private fun WorkerCraftQuantityContent(
     isQueueFull: Boolean,
     context: android.content.Context,
     onSetQuantity: (Int) -> Unit,
+    onSetAsh: ((String?) -> Unit)?,
     onCraft: () -> Unit,
     onBack: () -> Unit,
 ) {
@@ -827,6 +829,40 @@ private fun WorkerCraftQuantityContent(
                 color    = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
+        }
+        if (onSetAsh != null) {
+            val ashTiers = listOf("ashes","oak_ashes","willow_ashes","maple_ashes","yew_ashes","magic_ashes","redwood_ashes")
+            val availableAshes = ashTiers.filter { (state.inventory[it] ?: 0) >= qty }
+            if (availableAshes.isNotEmpty()) {
+                Spacer(Modifier.height(12.dp))
+                Text(stringResource(R.string.catalyst_optional), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Spacer(Modifier.height(4.dp))
+                val selectedAsh = state.herbloreAshKey
+                (listOf(null) + availableAshes).forEach { ashKey ->
+                    Row(
+                        modifier              = Modifier.fillMaxWidth().clickable { onSetAsh(ashKey) }.padding(vertical = 4.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment     = Alignment.CenterVertically,
+                    ) {
+                        Text(
+                            text       = if (ashKey == null) stringResource(R.string.catalyst_none) else GameStrings.itemName(context, ashKey),
+                            style      = MaterialTheme.typography.bodyMedium,
+                            color      = if (selectedAsh == ashKey) GoldPrimary else MaterialTheme.colorScheme.onSurface,
+                            fontWeight = if (selectedAsh == ashKey) FontWeight.SemiBold else FontWeight.Normal,
+                        )
+                        if (ashKey != null) {
+                            Text(
+                                text  = "×${state.inventory[ashKey] ?: 0}",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                }
+                if (state.herbloreAshKey != null) {
+                    Text(stringResource(R.string.catalyst_enhanced_output), style = MaterialTheme.typography.labelSmall, color = GoldPrimary)
+                }
+            }
         }
         Spacer(Modifier.height(20.dp))
         Button(
