@@ -1,5 +1,9 @@
 package com.fantasyidler.ui.screen
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -753,6 +757,49 @@ private fun ShellGameCard(gameState: ActiveGameState, difficulty: Difficulty, vi
                                         text  = if (i == gemPos) "💎" else "🥤",
                                         style = MaterialTheme.typography.bodyLarge,
                                     )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            is ActiveGameState.ShellGameSwapping -> {
+                val cupCount = gameState.cupCount
+                val delayMs = if (difficulty == Difficulty.HARD) 350L else 600L
+
+                LaunchedEffect(gameState.swaps.size) {
+                    delay(delayMs)
+                    viewModel.executeNextShellSwap()
+                }
+
+                Column(
+                    modifier            = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Text(
+                        text  = stringResource(R.string.carnival_active_shell_desc),
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                    )
+                    Box(modifier = Modifier.width((cupCount * 56 + (cupCount - 1) * 8).dp).height(56.dp)) {
+                        (0 until cupCount).forEach { c ->
+                            val visualIndex = gameState.positions.indexOf(c)
+                            val targetOffsetX = (visualIndex * 64).dp
+                            val animatedOffsetX by animateDpAsState(
+                                targetValue = targetOffsetX,
+                                animationSpec = tween(durationMillis = (delayMs * 0.8).toInt(), easing = FastOutSlowInEasing),
+                                label = "cupOffset"
+                            )
+                            Surface(
+                                shape  = RoundedCornerShape(8.dp),
+                                color  = MaterialTheme.colorScheme.surface,
+                                modifier = Modifier
+                                    .offset(x = animatedOffsetX)
+                                    .size(56.dp)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Text(text = "🥤", style = MaterialTheme.typography.bodyLarge)
                                 }
                             }
                         }

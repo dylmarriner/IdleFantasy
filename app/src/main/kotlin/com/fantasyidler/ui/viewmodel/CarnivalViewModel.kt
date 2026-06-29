@@ -38,6 +38,7 @@ sealed class ActiveGameState {
     data class AppraisalPlaying(val quadIndex: Int) : ActiveGameState()
     data class OnCooldown(val resumesAtMs: Long) : ActiveGameState()
     data class ShellGameShowing(val cupCount: Int, val gemPos: Int) : ActiveGameState()
+    data class ShellGameSwapping(val cupCount: Int, val gemPos: Int, val positions: List<Int>, val swaps: List<Pair<Int, Int>>) : ActiveGameState()
     data class ShellGamePicking(val cupCount: Int, val gemPos: Int) : ActiveGameState()
     data class HigherOrLowerPlaying(val numbers: List<Int>, val currentIdx: Int, val correctCount: Int) : ActiveGameState()
 }
@@ -435,14 +436,38 @@ class CarnivalViewModel @Inject constructor(
         val s = _extra.value.shellGameState
         if (s !is ActiveGameState.ShellGameShowing) return
         val positions = (0 until s.cupCount).toMutableList()
-        val swaps = s.cupCount * 3 + Random.nextInt(s.cupCount + 1)
-        repeat(swaps) {
-            val i = Random.nextInt(positions.size)
-            val j = Random.nextInt(positions.size)
-            val tmp = positions[i]; positions[i] = positions[j]; positions[j] = tmp
+        val diff = _extra.value.shellGameDifficulty
+        val numSwaps = if (diff == Difficulty.HARD) 7 + Random.nextInt(4) else 4 + Random.nextInt(3)
+        
+        val swaps = mutableListOf<Pair<Int, Int>>()
+        var lastI = -1
+        var lastJ = -1
+        repeat(numSwaps) {
+            var i = Random.nextInt(positions.size)
+            var j = Random.nextInt(positions.size)
+            while (i == j || (i == lastI && j == lastJ) || (i == lastJ && j == lastI)) {
+                i = Random.nextInt(positions.size)
+                j = Random.nextInt(positions.size)
+            }
+            lastI = i
+            lastJ = j
+            swaps.add(i to j)
         }
-        val newGemPos = positions.indexOf(s.gemPos)
-        _extra.update { it.copy(shellGameState = ActiveGameState.ShellGamePicking(s.cupCount, newGemPos)) }
+        _extra.update { it.copy(shellGameState = ActiveGameState.ShellGameSwapping(s.cupCount, s.gemPos, positions, swaps)) }
+    }
+
+    fun executeNextShellSwap() {
+        val s = _extra.value.shellGameState
+        if (s !is ActiveGameState.ShellGameSwapping) return
+        if (s.swaps.isEmpty()) {
+            val newGemPos = s.positions.indexOf(s.gemPos)
+            _extra.update { it.copy(shellGameState = ActiveGameState.ShellGamePicking(s.cupCount, newGemPos)) }
+            return
+        }
+        val (i, j) = s.swaps.first()
+        val newPositions = s.positions.toMutableList()
+        val tmp = newPositions[i]; newPositions[i] = newPositions[j]; newPositions[j] = tmp
+        _extra.update { it.copy(shellGameState = ActiveGameState.ShellGameSwapping(s.cupCount, s.gemPos, newPositions, s.swaps.drop(1))) }
     }
 
     fun submitShellGuess(pickedPos: Int) {
