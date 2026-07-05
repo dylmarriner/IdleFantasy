@@ -17,6 +17,12 @@ Please see the [dedicated wiki](https://idlefantasy.tristinbaker.xyz/) for more 
 
 Pick a skill or dungeon, start a session, then put your phone down. Your hero keeps training for up to an hour while the app is closed. Come back whenever you want to collect your XP and loot, then send them back out. There is no stamina bar, no energy system, and nothing that pressures you to stay in the app.
 
+## Enhanced idle MMO blueprint
+
+This fork includes an execution-ready technical blueprint for evolving the base game toward a deeper Melvor Idle / RuneScape / World of Warcraft-inspired idle RPG with persistent gear, selectable combat training focus, expanded skills, archery, magic, races, classes, specializations, and talent trees.
+
+See: [Enhanced Idle MMO Technical Blueprint](docs/ENHANCED_IDLE_MMO_TECHNICAL_BLUEPRINT.md)
+
 ## Skills
 
 Train **23 skills** at your own pace:
@@ -96,7 +102,7 @@ See the [contributors graph](https://github.com/tristinbaker/IdleFantasy/graphs/
 **Architecture:** MVVM + Repository  
 **Dependency injection:** Hilt  
 **Notifications:** NotificationCompat  
-**Localization:** Android string resources (Weblate-compatible)  
+**Localization:** Android string resources (Weblate-compatible)
 
 No Google Play Services dependency. F-Droid compatible.
 
